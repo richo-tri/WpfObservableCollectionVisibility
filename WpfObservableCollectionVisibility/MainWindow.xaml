@@ -1,0 +1,31 @@
+﻿<Window x:Class="WpfObservableCollectionVisibility.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfObservableCollectionVisibility"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800" x:Name="MyWindow">
+    <Window.Resources>
+        <ResourceDictionary>
+            <local:EmptyListVisibilityConverter x:Key="EmptyListVisibilityConverter"></local:EmptyListVisibilityConverter>
+            <local:ListCountVisibilityConverter x:Key="ListCountVisibilityConverter"></local:ListCountVisibilityConverter>
+        </ResourceDictionary>
+    </Window.Resources>
+    <StackPanel>
+        <Button Height="50" Width="200" Content="This button is broken" VerticalAlignment="top" Visibility="{Binding MenuItems, ElementName=MyWindow, Converter={StaticResource EmptyListVisibilityConverter}}"></Button>
+        <Button Height="50" Width="200" Content="This button works" VerticalAlignment="top" Visibility="{Binding MenuItems.Count, ElementName=MyWindow, Converter={StaticResource ListCountVisibilityConverter}}"></Button>
+
+        <Grid Width="200" Height="200">
+            <ItemsControl ItemsSource="{Binding MenuItems, ElementName=MyWindow}" Focusable="False">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel>
+                            <TextBlock Text="{Binding Name}" />
+                        </StackPanel>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </Grid>
+    </StackPanel>
+</Window>
